@@ -12,7 +12,7 @@ const BirthdayCard = () => {
       useNativeDriver: true,
     }).start(() => {
       setIsFlipped(!isFlipped);
-    });a
+    });
   };
 
   const frontInterpolate = animatedValue.interpolate({
