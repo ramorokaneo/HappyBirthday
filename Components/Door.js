@@ -1,36 +1,30 @@
+// Door.js
 
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 
 const Door = () => {
   const [isDoorOpen, setDoorOpen] = useState(false);
+  const navigation = useNavigation();
 
   const handleDoorPress = () => {
     setDoorOpen(!isDoorOpen);
+
+    // Navigate to the Birthday Card screen when the door is opened
+    if (!isDoorOpen) {
+      navigation.navigate('BirthdayCard');
+    }
   };
 
   const renderCuteIcons = () => {
     const numberOfIcons = 90;
     const iconSize = 24;
 
-    const iconPositions = [];
-    const iconColors = [];
-
-    for (let i = 0; i < numberOfIcons; i++) {
-      let left, top, color;
-
-      do {
-        // Generate random position and color
-        left = Math.random() * 260 + 20;
-        top = Math.random() * 520 + 20;
-        color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-        // Check for overlap
-      } while (isOverlapping({ left, top }, iconPositions, iconSize));
-
-      iconPositions.push({ left, top });
-      iconColors.push(color);
-    }
+    const iconColors = Array.from({ length: numberOfIcons }, () =>
+      `#${Math.floor(Math.random() * 16777215).toString(16)}`
+    );
 
     return iconColors.map((color, index) => (
       <Icon
@@ -38,24 +32,9 @@ const Door = () => {
         name="heart"
         size={iconSize}
         color={color}
-        style={[styles.cuteIcon, { left: iconPositions[index].left, top: iconPositions[index].top }]}
+        style={[styles.cuteIcon, { left: Math.random() * 260 + 20, top: Math.random() * 520 + 20 }]}
       />
     ));
-  };
-
-  const isOverlapping = (newIcon, existingIcons, iconSize) => {
-    for (const existingIcon of existingIcons) {
-      const distance = Math.sqrt(
-        Math.pow(newIcon.left - existingIcon.left, 2) + Math.pow(newIcon.top - existingIcon.top, 2)
-      );
-
-      if (distance < iconSize * 2) {
-        // Icons are considered overlapping if their distance is less than twice the icon size
-        return true;
-      }
-    }
-
-    return false;
   };
 
   return (
