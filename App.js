@@ -1,21 +1,20 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import Door from './Components/Door';
+import { StyleSheet, View } from 'react-native';
 import BirthdayCard from './Components/BirthdayCard';
 
-const Stack = createStackNavigator();
-
-const App = () => {
+export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Door" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Door" component={Door} />
-        <Stack.Screen name="BirthdayCard" component={BirthdayCard} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={styles.container}>
+      <BirthdayCard recipientName="Gran" />
+    </View>
   );
-};
+}
 
-export default App;
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

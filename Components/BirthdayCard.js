@@ -1,91 +1,80 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+// BirthdayCard.js
+import React, { useState } from 'react';
+import { View, Image, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 
-const BirthdayCard = () => {
+const BirthdayCard = ({ recipientName }) => {
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handlePress = () => {
+    setIsPressed(!isPressed);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Happy 90th Birthday!</Text>
-      <Text style={styles.message}>
-        Dear Grandma, on this special day, may your heart be filled with joy and your spirit with
-        love. Wishing you a blessed 90th birthday surrounded by the warmth of family and friends.
-        Cheers to a lifetime of wonderful memories and countless more to come!
-      </Text>
-      <View style={styles.iconsContainer}>
-        {renderRandomIcons('heart', 12)}
-        {renderRandomIcons('flower', 12)}
-        {renderRandomIcons('birthday-cake', 12)}
-        {renderRandomIcons('balloon', 12)}
-        {renderRandomIcons('kiss', 12)}
-        {renderRandomIcons('sparkle', 24)}
+    <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
+      <View style={[styles.card, isPressed && styles.pressedCard]}>
+        {/* Add your background image here */}
+        {/* <Image source={require('./path/to/background-image.jpg')} style={styles.backgroundImage} /> */}
+
+        {/* Animated birthday cake gif or image */}
+        <Image source={require('../Components/Images/gran.jpg')} style={styles.birthdayCake} />
+
+        {/* Text section */}
+        <Text style={styles.text}>
+          🎉🎂 Happy Birthday, {recipientName}! 🎂🎉
+        </Text>
+
+        {/* Your personal message */}
+        <Text style={styles.text}>
+          Wishing you a day filled with joy, laughter, and all the things that make your heart smile! 🎈✨
+        </Text>
+
+        {/* Special Birthday Message */}
+        <Text style={styles.specialMessage}>
+          🌟 May your day be as special as you are! 🌟
+        </Text>
       </View>
-      <View style={styles.stickmanContainer}>
-        <Icon name="male" size={40} color="#333" style={styles.stickman} />
-        <Icon name="female" size={40} color="#333" style={styles.stickman} />
-        <Icon name="child" size={40} color="#333" style={styles.stickman} />
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-const renderRandomIcons = (iconName, count) => {
-  return Array.from({ length: count }).map((_, index) => (
-    <Icon
-      key={index}
-      name={iconName}
-      size={20}
-      color={`hsl(${Math.random() * 360}, 100%, 50%)`}
-      style={getRandomIconPosition()}
-    />
-  ));
-};
-
-const getRandomIconPosition = () => {
-  return {
-    position: 'absolute',
-    top: Math.random() * 200 - 100, // Adjust these values based on your layout
-    left: Math.random() * 200 - 100,
-  };
-};
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F4F4F4',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    margin: 20,
+  card: {
+    width: width * 0.8,
+    maxWidth: 400,
+    borderRadius: 15,
+    backgroundColor: '#ffffff',
+    elevation: 5,
     padding: 20,
+    alignItems: 'center',
+    margin: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 5,
-    position: 'relative',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    textAlign: 'center',
+  pressedCard: {
+    transform: [{ scale: 0.95 }],
+  },
+  birthdayCake: {
+    width: width * 0.4,
+    height: width * 0.4,
     marginBottom: 10,
+    borderRadius: 10,
   },
-  message: {
-    fontSize: 16,
-    color: '#555',
+  text: {
+    fontSize: 18,
     textAlign: 'center',
+    marginTop: 10,
+    color: '#333',
   },
-  iconsContainer: {
-    position: 'relative',
-    marginTop: 20,
-  },
-  stickmanContainer: {
-    flexDirection: 'row',
-    marginTop: 20,
-  },
-  stickman: {
-    marginHorizontal: 5,
+  specialMessage: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 15,
+    color: '#ff6347',
   },
 });
 
